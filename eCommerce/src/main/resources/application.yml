@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: ecommerce-api
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/ecommerce
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+
+  elasticsearch:
+    uris: http://elasticsearch:9200
+
+server:
+  port: 8080

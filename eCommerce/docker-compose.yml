@@ -1,0 +1,45 @@
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: ecommerce-mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
+    container_name: ecommerce-elasticsearch
+
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+
+    ports:
+      - "9200:9200"
+
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  app:
+    build: .
+    container_name: ecommerce-app
+
+    depends_on:
+      - mysql
+      - elasticsearch
+
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
+  es_data:
